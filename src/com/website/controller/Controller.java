@@ -1,22 +1,23 @@
 package com.website.controller;
 
+import com.website.itemFactory.Item;
 import com.website.itemFactory.ItemFactory;
 
 import java.util.Scanner;
 
 public class Controller {
     private Scanner scan;
-    private ItemFactory item;
+    private ItemFactory itemFactory;
 
     public Controller() {
         scan = new Scanner(System.in);
-        item = new ItemFactory();
+        itemFactory = new ItemFactory();
     }
 
     public void startProgramLoop() {
         boolean continueCondition = true;
         while(continueCondition) {
-            System.out.print("Welcome to the Logistics Program (1 for non-perishables, 2 for perishables):");
+            System.out.print("Welcome to the Logistics Program (1 for non-perishables, 2 for perishables): ");
             int choice = scan.nextInt();
             if(choice == 1) {
                 handleNonPerishableItem();
@@ -31,12 +32,18 @@ public class Controller {
         }
     }
 
-    public void handleNonPerishableItem() {
-        item.getItem("perishable");
+    public Item handleNonPerishableItem() {
+        System.out.println("You've chosen non-perishable item...");
+        var item = itemFactory.getItem("non-perishable");
+        getStandardItemInfoAndCreateItem(item);
+        return item;
     }
 
-    public void handlePerishableItem() {
-        item.getItem("non-perishable");
+    public Item handlePerishableItem() {
+        System.out.println("You've chosen perishable item...");
+        var item = itemFactory.getItem("perishable");
+        getStandardItemInfoAndCreateItem(item);
+        return item;
     }
 
     public boolean checkIfUserWantsToContinue() {
@@ -54,5 +61,15 @@ public class Controller {
             }
         }
         return false;
+    }
+
+    public void getStandardItemInfoAndCreateItem(Item item) {
+        System.out.print("Enter item name: ");
+        String name = scan.next();
+        System.out.print("Enter description: ");
+        String description = scan.next();
+        System.out.print("Enter amount (EX: 12.5 or 10.0):");
+        double amount = scan.nextDouble();
+        item.createItem(name,description,amount);
     }
 }

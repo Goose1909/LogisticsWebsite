@@ -43,9 +43,10 @@ public class NonPerishableItem implements Item {
     }
 
     @Override
-    public void createItem(String nonPerishableItemName, String nonPerishableItemDescription,
+    public Item createItem(String nonPerishableItemName, String nonPerishableItemDescription,
                            double nonPerishableItemAmount) {
         Item item = new NonPerishableItem(nonPerishableItemName, nonPerishableItemDescription, nonPerishableItemAmount);
+        return item;
     }
 
     @Override

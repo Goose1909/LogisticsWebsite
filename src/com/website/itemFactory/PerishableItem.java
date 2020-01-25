@@ -64,11 +64,11 @@ public class PerishableItem implements Item{
     }
 
     @Override
-    public void createItem(String perishableItemName, String perishableItemDescription, double perishableItemAmount) {
+    public Item createItem(String perishableItemName, String perishableItemDescription, double perishableItemAmount) {
+        Item item = new PerishableItem();
         if(true) {
             try {
-                Item item = new PerishableItem();
-                System.out.print("Enter Expiration Date (EX: 01/15/2020): ");
+                System.out.print("Enter Expiration Date (EX: 01-15-2020): ");
                 Date date = dateFormat.parse(scan.next());
                 item = new PerishableItem(perishableItemName, date, perishableItemDescription, perishableItemAmount);
             } catch (ParseException e) {
@@ -77,6 +77,7 @@ public class PerishableItem implements Item{
                 scan.close();
             }
         }
+        return item;
     }
 
     @Override
