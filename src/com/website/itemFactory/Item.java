@@ -1,6 +1,6 @@
 package com.website.itemFactory;
 
 public interface Item {
-    Item createItem(String name, String description, double amount);
-    void storeItem();
+    void createItem(String name, String description, double amount);
+    void storeItem(Item item);
 }

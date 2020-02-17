@@ -1,5 +1,8 @@
 package com.website.itemFactory;
 
+import com.website.storage.ItemArrayList;
+
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,14 +15,13 @@ public class PerishableItem implements Item{
     private double perishableItemAmount;
     private Scanner scan;
     private SimpleDateFormat dateFormat;
+    private ItemArrayList itemArrayList;
 
     public PerishableItem() {
         this.perishableItemName = "";
         this.perishableItemExpirationDate = null;
         this.perishableItemDescription = "";
         this.perishableItemAmount = 0.0;
-        this.scan = new Scanner(System.in);
-        this.dateFormat = new SimpleDateFormat("MM-dd-yyyy");
     }
 
     public PerishableItem(String perishableItemName, Date perishableItemExpirationDate, String perishableItemDescription, double perishableItemAmount) {
@@ -27,8 +29,6 @@ public class PerishableItem implements Item{
         this.perishableItemExpirationDate = perishableItemExpirationDate;
         this.perishableItemDescription = perishableItemDescription;
         this.perishableItemAmount = perishableItemAmount;
-        this.scan = new Scanner(System.in);
-        this.dateFormat = new SimpleDateFormat("MM-dd-yyyy");
     }
 
     public void setPerishableItemName(String perishableItemName) {
@@ -64,24 +64,25 @@ public class PerishableItem implements Item{
     }
 
     @Override
-    public Item createItem(String perishableItemName, String perishableItemDescription, double perishableItemAmount) {
-        Item item = new PerishableItem();
-        if(true) {
-            try {
-                System.out.print("Enter Expiration Date (EX: 01-15-2020): ");
-                Date date = dateFormat.parse(scan.next());
-                item = new PerishableItem(perishableItemName, date, perishableItemDescription, perishableItemAmount);
-            } catch (ParseException e) {
-                System.out.println(e.getStackTrace());
-            } finally {
-                scan.close();
+    public void createItem(String perishableItemName, String perishableItemDescription, double perishableItemAmount) {
+        Item item = null;
+        try {
+            this.scan = new Scanner(System.in);
+            this.dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+            System.out.print("Enter Expiration Date (EX: 01-15-2020): ");
+            Date date = dateFormat.parse(scan.next());
+            String junk = scan.nextLine();
+            item = new PerishableItem(perishableItemName, date, perishableItemDescription, perishableItemAmount);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } finally {
+            if (!item.equals(null)) {
+                storeItem(item);
             }
         }
-        return item;
     }
 
-    @Override
-    public void storeItem() {
-        //Will add to DB when implemented.
+    public void storeItem(Item item) {
+        itemArrayList.storeItemInItemArrayList(item);
     }
 }

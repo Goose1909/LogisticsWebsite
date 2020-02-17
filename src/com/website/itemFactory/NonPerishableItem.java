@@ -1,9 +1,12 @@
 package com.website.itemFactory;
 
+import com.website.storage.ItemArrayList;
+
 public class NonPerishableItem implements Item {
     private String nonPerishableItemName;
     private String nonPerishableItemDescription;
     private double nonPerishableItemAmount;
+    private ItemArrayList itemArrayList;
 
     public NonPerishableItem() {
         this.nonPerishableItemName = "";
@@ -43,14 +46,20 @@ public class NonPerishableItem implements Item {
     }
 
     @Override
-    public Item createItem(String nonPerishableItemName, String nonPerishableItemDescription,
+    public void createItem(String nonPerishableItemName, String nonPerishableItemDescription,
                            double nonPerishableItemAmount) {
-        Item item = new NonPerishableItem(nonPerishableItemName, nonPerishableItemDescription, nonPerishableItemAmount);
-        return item;
+        Item item = null;
+        try {
+            item = new NonPerishableItem(nonPerishableItemName, nonPerishableItemDescription, nonPerishableItemAmount);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(!item.equals(null)) {
+                storeItem(item);
+            }
+        }
     }
-
-    @Override
-    public void storeItem() {
-        //Will add to DB when implemented
+    public void storeItem(Item item) {
+        itemArrayList.storeItemInItemArrayList(item);
     }
 }

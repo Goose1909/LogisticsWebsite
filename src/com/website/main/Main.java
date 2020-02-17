@@ -10,8 +10,7 @@ public class Main {
                 controller.startProgramLoop();
             }
         } catch (Exception e) {
-            System.out.print("Caught exception: " + e +"\n");
-            System.out.println(e.getStackTrace());
+            e.printStackTrace();
         }
     }
 }
